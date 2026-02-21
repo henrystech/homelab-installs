@@ -11,12 +11,15 @@ This Bash script automates the installation of the Arr Stack, a collection of me
 ## Installation
 
 1. **Download the script**:
-   - If hosted on GitHub or another repository, clone or download the repository containing `arr-stack.sh`.
+   - Clone the repository:
+     ```bash
+     git clone https://gitea.henrystech.dev/l0rdmusash1/bash-installs.git
+     cd bash-installs
+     ```
    - Alternatively, download the script directly:
      ```bash
-     wget https://example.com/path/to/arr-stack.sh
+     curl -fsSL https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/main/arr-stack.sh | 
      ```
-     Replace `https://example.com/path/to/arr-stack.sh` with the actual URL where the script is hosted.
 
 2. **Make the script executable**:
    ```bash
