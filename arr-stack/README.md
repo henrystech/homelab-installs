@@ -18,7 +18,7 @@ This Bash script automates the installation of the Arr Stack, a collection of me
      ```
    - Alternatively, download the script directly:
      ```bash
-     curl -fsSL https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/main/arr-stack.sh | bash
+     curl -fsSL https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/main/arr-stack/arr-stack.sh | bash
      ```
 
 2. **Make the script executable**:
