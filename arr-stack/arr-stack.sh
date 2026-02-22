@@ -55,10 +55,10 @@ EOF
 fi
 
 # Create data folders
-mkdir -p config data
+#mkdir -p config data
 
 echo "🐳 Starting containers..."
-docker compose up -d
+sudo docker compose up -d
 
 echo "✅ Installation Complete!"
 echo "⚠️ You may need to log out and back in if Docker was just installed."
