@@ -115,28 +115,28 @@ services:
       - ${DOCKERCONFDIR}/sonarr:/config
       - ${DOCKERSTORAGEDIR}:/data
       
-  sickchill:
-    container_name: sickchill
-    image: lscr.io/linuxserver/sickchill:latest
-    restart: unless-stopped
-    logging:
-      driver: json-file
-      options:
-        max-file: ${DOCKERLOGGING_MAXFILE}
-        max-size: ${DOCKERLOGGING_MAXSIZE}
-    ports:
-      - 8081:8081
-    environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
-      - TZ=${TZ}
-      - UMASK=002
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERCONFDIR}/sickchill:/config
-      - ${DOCKERSTORAGEDIR}:/data
+#  sickchill:
+#    container_name: sickchill
+#    image: lscr.io/linuxserver/sickchill:latest
+#    restart: unless-stopped
+#    logging:
+#      driver: json-file
+#      options:
+#        max-file: ${DOCKERLOGGING_MAXFILE}
+#        max-size: ${DOCKERLOGGING_MAXSIZE}
+#    ports:
+#      - 8081:8081
+#    environment:
+#      - PUID=${PUID}
+#      - PGID=${PGID}
+#      - TZ=${TZ}
+#      - UMASK=002
+#    volumes:
+#      - /etc/localtime:/etc/localtime:ro
+#      - ${DOCKERCONFDIR}/sickchill:/config
+#      - ${DOCKERSTORAGEDIR}:/data
 
-lidarr:
+  lidarr:
     container_name: lidarr
     image: ghcr.io/hotio/lidarr:release
     restart: unless-stopped
