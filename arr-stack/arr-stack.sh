@@ -5,7 +5,7 @@ set -e
 echo "🚀 Starting Arr Stack Installation..."
 
 # Variables
-INSTALL_DIR="/docker/arr-stack"
+INSTALL_DIR="/docker"
 COMPOSE_URL="https://raw.githubusercontent.com/henrystech/arr-stack/main/docker-compose.yaml"
 
 # Install Docker if not installed
