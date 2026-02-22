@@ -40,7 +40,7 @@ cat <<EOF > .env
 PUID=1000
 PGID=1000
 TZ=America/Chicago
-DOCKERCONFDIR=/volume1/docker/arr-stack
+DOCKERCONFDIR=/docker
 DOCKERSTORAGEDIR=/volume1/arr-stack-data
 DOCKERLOGGING_MAXFILE=10
 DOCKERLOGGING_MAXSIZE=200k
