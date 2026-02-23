@@ -9,7 +9,7 @@ if command -v apt &> /dev/null; then
     echo "📦 Updating system packages..."
     sudo apt update && sudo apt upgrade -y
 else
-    echo "ℹ️ apt not found. Skipping system update."
+    echo "⚠️ apt not found. Skipping system update."
 fi
 
 # Variables
