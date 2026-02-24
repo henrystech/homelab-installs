@@ -33,7 +33,8 @@ Primary environments supported:
 -   Ubuntu / Debian-based Linux
 -   Minimal server installations
 -   Docker-enabled hosts
--   UGREEN NAS environments
+-   SYNOLOGY NAS environments
+-   UNRAID NAS environments
 -   Homelab infrastructure
 -   Proxmox-ready systems
 
