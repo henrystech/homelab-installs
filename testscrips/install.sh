@@ -14,7 +14,7 @@ fi
 
 # Variables
 INSTALL_DIR="/docker/arr-stack"
-COMPOSE_URL="https://raw.githubusercontent.com/henrystech/arr-stack/main/docker-compose.yaml"
+COMPOSE_URL="https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/branch/main/arr-stack/docker-compose.yaml"
 
 # Install Docker if not installed
 if ! command -v docker &> /dev/null; then
