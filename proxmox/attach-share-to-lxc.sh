@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ==========================================================
-# Proxmox LXC Bind Mount Script
+# Proxmox LXC Bind Mount Scripts
 # Attaches a host folder to an LXC container persistently
 # ==========================================================
 
