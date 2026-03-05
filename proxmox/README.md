@@ -9,3 +9,5 @@ Since you're running Proxmox and working with LXC containers, here’s a product
      ```bash
      curl -fsSL https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/main/proxmox/attach-share-to-lxc.sh | bash
      ```
+# 📌 How It Works
+Proxmox stores LXC config in:
