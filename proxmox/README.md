@@ -1,3 +1,4 @@
+# attach-share-to-lxc.sh script
 Since you're running Proxmox and working with LXC containers, here’s a production-ready bash script that:
  - Mounts a host directory on Proxmox
  - Binds it into an LXC container
