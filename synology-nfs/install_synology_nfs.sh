@@ -8,9 +8,9 @@ echo "🚀 Starting Synology NFS Mount Setup..."
 # 🔧 EDIT THESE VARIABLES
 #########################################
 
-NAS_IP="192.168.1.10"                  # Synology IP address
-NAS_EXPORT="/volume1/data"             # NFS path from Synology
-MOUNT_POINT="/mnt/data"                # Where Ubuntu will mount it
+NAS_IP="192.168.1.12"                 # Synology IP address
+NAS_EXPORT="/volume1/data"           # NFS path from Synology
+MOUNT_POINT="/mnt/data"            # Where Ubuntu will mount it
 NFS_VERSION="4"                        # Recommended: 4
 
 #########################################
