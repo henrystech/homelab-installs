@@ -40,7 +40,7 @@ If you understand the risks and trust the source, you may execute
 directly:
 
 ``` bash
-curl -fsSL https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/main/testscrips/install_synology_nfs.sh | sudo bash
+curl -fsSL https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/branch/main/synology-nfs/install_synology_nfs.sh | sudo bash
 ```
 
 ⚠️ This method does not allow inspection before execution.
