@@ -14,7 +14,7 @@ This allows you to inspect the script before executing it.
 ## Step 1 --- Download the Script
 
 ``` bash
-curl -fsSL -o install_synology_nfs.sh https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/main/testscrips/install_synology_nfs.sh
+curl -fsSL -o install_synology_nfs.sh https://gitea.henrystech.dev/l0rdmusash1/bash-installs/src/branch/main/synology-nfs/install_synology_nfs.sh
 ```
 
 ## Step 2 --- Make It Executable
