@@ -167,4 +167,4 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
-      - TOKEN=BEF8cPuv611o97OZp2L911qCtxAyv4XMTE9mUHsTvvJVHYMFwi
+      - TOKEN=wZbwp5ZhPTyEDecRer8OsM7VS1wUsmgFH2WDkucB3pC
