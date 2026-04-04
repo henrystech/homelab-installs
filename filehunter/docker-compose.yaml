@@ -135,3 +135,15 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ${DOCKERCONFDIR}/lidarr:/config
       - ${DOCKERSTORAGEDIR}:/data
+
+
+  hawser:
+    image: ghcr.io/finsys/hawser:latest
+    container_name: hawser
+    restart: unless-stopped
+    ports:
+      - "2376:2376"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - TOKEN=wZbwp5ZhPTyEDecRer8OsM7VS1wUsmgFH2WDkucB3pC
