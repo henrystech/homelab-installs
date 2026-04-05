@@ -167,3 +167,18 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TOKEN=wZbwp5ZhPTyEDecRer8OsM7VS1wUsmgFH2WDkucB3pC
+
+  sickchill:
+    image: lscr.io/linuxserver/sickchill:latest
+    container_name: sickchill
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+    volumes:
+      - /docker/sickchill/config:/config
+      - /mnt/data:/downloads #optional
+      - /mnt/data/media/tvshows:/tv #optional
+    ports:
+      - 8081:8081
+    restart: unless-stopped
