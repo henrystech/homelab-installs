@@ -147,7 +147,7 @@ services:
     environment:
       - TOKEN=wZbwp5ZhPTyEDecRer8OsM7VS1wUsmgFH2WDkucB3pC
 
-  sonarr-tv:
+  sonarr:
     container_name: sonarr-Tv
     image: ghcr.io/hotio/sonarr:release
     restart: unless-stopped
