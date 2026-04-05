@@ -1,6 +1,6 @@
 # Arr Stack Installer
 
-This Bash script automates the installation of the Arr Stack, a collection of media management applications (such as Sonarr, Radarr, Lidarr, etc.) using Docker and Docker Compose.
+This Bash script automates the installation of the NFS client and Arr Stack, a collection of media management applications (such as Sonarr, Radarr, Lidarr, etc.) using Docker and Docker Compose.
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ This Bash script automates the installation of the Arr Stack, a collection of me
      ```
    - Alternatively, download the script directly:
      ```bash
-     curl -fsSL https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/main/arr-stack/arr-stack.sh | bash
+     curl -fsSL https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/main/arr-stack/arr-stack.sh | sudo bash
      ```
 
 2. **Make the script executable**:
@@ -31,9 +31,10 @@ This Bash script automates the installation of the Arr Stack, a collection of me
    ./arr-stack.sh
    ```
    The script will:
+   - Install NFS client if not already installed.
    - Install Docker if not already installed.
    - Install the Docker Compose plugin if missing.
-   - Create the installation directory (`/docker/arr-stack`).
+   - Create the installation directory (`/docker`).
    - Download the `docker-compose.yaml` file from the specified GitHub repository.
    - Create a `.env` file with default configuration variables.
 
@@ -41,7 +42,7 @@ This Bash script automates the installation of the Arr Stack, a collection of me
 
 After running the script, navigate to the installation directory:
 ```bash
-cd /docker/arr-stack
+cd /docker
 ```
 
 Start the services using Docker Compose:
