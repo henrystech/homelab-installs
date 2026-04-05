@@ -140,6 +140,8 @@ services:
     image: gtstef/filebrowser:beta
     container_name: filebrowser
     restart: unless-stopped
+    ports:
+      - 9898:80
     volumes:
       - /:/srv
       - /docker/filebrowser/filebrowser.db:/database/filebrowser.db
@@ -147,8 +149,6 @@ services:
     environment:
       - PUID=$(id -u)
       - PGID=$(id -g)
-    ports:
-      - 9898:80
 
   hawser:
     image: ghcr.io/finsys/hawser:latest
