@@ -136,7 +136,6 @@ services:
       - ${DOCKERCONFDIR}/lidarr:/config
       - ${DOCKERSTORAGEDIR}:/data
 
-
   hawser:
     image: ghcr.io/finsys/hawser:latest
     container_name: hawser
@@ -147,3 +146,24 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TOKEN=wZbwp5ZhPTyEDecRer8OsM7VS1wUsmgFH2WDkucB3pC
+
+  sonarr-tv:
+    container_name: sonarr-Tv
+    image: ghcr.io/hotio/sonarr:release
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-file: ${DOCKERLOGGING_MAXFILE}
+        max-size: ${DOCKERLOGGING_MAXSIZE}
+    ports:
+      - 8990:8989
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - UMASK=002
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DOCKERCONFDIR}/sonarr-Tv:/config
+      - ${DOCKERSTORAGEDIR}:/data
