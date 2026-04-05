@@ -136,7 +136,7 @@ services:
       - ${DOCKERCONFDIR}/lidarr:/config
       - ${DOCKERSTORAGEDIR}:/data
 
- filebrowser:
+  filebrowser:
     image: gtstef/filebrowser:beta
     container_name: filebrowser
     restart: unless-stopped
