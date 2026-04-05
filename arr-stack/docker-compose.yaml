@@ -157,7 +157,6 @@ services:
       - ${DOCKERCONFDIR}/sonarr-Tv:/config
       - ${DOCKERSTORAGEDIR}:/data
 
-
   hawser:
     image: ghcr.io/finsys/hawser:latest
     container_name: hawser
