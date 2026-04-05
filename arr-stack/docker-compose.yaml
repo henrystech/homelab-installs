@@ -136,20 +136,6 @@ services:
       - ${DOCKERCONFDIR}/lidarr:/config
       - ${DOCKERSTORAGEDIR}:/data
 
-  filebrowser:
-    image: gtstef/filebrowser:beta
-    container_name: filebrowser
-    restart: unless-stopped
-    ports:
-      - 9898:80
-    volumes:
-      - /:/srv
-      - /docker/filebrowser/filebrowser.db:/database/filebrowser.db
-      - /docker/filebrowser/settings.json:/config/settings.json
-    environment:
-      - PUID=$(id -u)
-      - PGID=$(id -g)
-
   sonarr-tv:
     container_name: sonarr-Tv
     image: ghcr.io/hotio/sonarr:release
