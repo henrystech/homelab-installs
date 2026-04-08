@@ -167,7 +167,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - TOKEN=wZbwp5ZhPTyEDecRer8OsM7VS1wUsmgFH2WDkucB3pC
-
   sickchill:
     image: lscr.io/linuxserver/sickchill:latest
     container_name: sickchill

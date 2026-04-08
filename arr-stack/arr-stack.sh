@@ -12,10 +12,10 @@ echo "🚀 Starting Full Setup (Synology NFS + Arr Stack)..."
 # 🔧 EDIT THESE VARIABLES
 #########################################
 
-NAS_IP="192.168.1.10"
-NAS_EXPORT="/volume1/data"
-MOUNT_POINT="/mnt/data"
-NFS_VERSION="4"
+NAS_IP="192.168.1.10"               # Synology IP address
+NAS_EXPORT="/volume1/data"          # NFS path from Nas 
+MOUNT_POINT="/mnt/data"             # Where Ubuntu will mount it
+NFS_VERSION="4"                     # Recommended: 4
 
 INSTALL_DIR="/docker"
 COMPOSE_URL="https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/branch/main/filehunter/docker-compose.yaml"
