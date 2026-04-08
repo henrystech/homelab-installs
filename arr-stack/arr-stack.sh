@@ -18,7 +18,7 @@ MOUNT_POINT="/mnt/data"             # Where Ubuntu will mount it
 NFS_VERSION="4"                     # Recommended: 4
 
 INSTALL_DIR="/docker"
-COMPOSE_URL="https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/branch/main/filehunter/docker-compose.yaml"
+COMPOSE_URL="https://git.henrystech.dev/l0rdmusash1/bash-installs/raw/branch/main/filehunter/docker-compose.yaml"
 
 #########################################
 
