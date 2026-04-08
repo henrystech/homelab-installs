@@ -53,6 +53,20 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+  filebrowser:
+    image: gtstef/filebrowser:beta
+    container_name: filebrowser
+    restart: unless-stopped
+    ports:
+      - 989:80 #Change the port if needed
+    volumes:
+      - /:/srv #Change to match your directory
+      - /docker/filebrowser/filebrowser.db:/database/filebrowser.db #Change to match your directory
+      - /docker/filebrowser/settings.json:/config/settings.json #Change to match your directory
+    environment:
+      - PUID=$(id -u)
+      - PGID=$(id -g)
+    
   prowlarr:
     container_name: prowlarr
     image: ghcr.io/hotio/prowlarr:testing
