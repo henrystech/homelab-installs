@@ -13,12 +13,12 @@ This Bash script automates the installation of the NFS client and Arr Stack, a c
 1. **Download the script**:
    - Clone the repository:
      ```bash
-     git clone https://gitea.henrystech.dev/l0rdmusash1/bash-installs.git
+     git clone https://gi.henrystech.dev/l0rdmusash1/bash-installs.git
      cd bash-installs
      ```
    - Alternatively, download the script directly:
      ```bash
-     curl -fsSL https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/main/arr-stack/arr-stack.sh | sudo bash
+     curl -fsSL https://git.henrystech.dev/l0rdmusash1/bash-installs/raw/main/arr-stack/arr-stack.sh | sudo bash
      ```
 
 2. **Make the script executable**:
