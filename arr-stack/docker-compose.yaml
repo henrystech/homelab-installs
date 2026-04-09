@@ -57,15 +57,15 @@ services:
     image: gtstef/filebrowser:beta
     container_name: filebrowser
     restart: unless-stopped
-    ports:
-      - 9890:80 #Change the port if needed
     volumes:
-      - /:/folder #Change to match your directory
-      - /docker/filebrowser/filebrowser.db:/home/filebrowser/data #Change to match your directory
+      - /:/srv #Change to match your directory
+      - /docker/filebrowser/filebrowser.db:/database/filebrowser.db #Change to match your directory
       - /docker/filebrowser/settings.json:/config/settings.json #Change to match your directory
     environment:
       - PUID=$(id -u)
       - PGID=$(id -g)
+    ports:
+      - 9898:80 #Change the port if needed
     
   prowlarr:
     container_name: prowlarr
