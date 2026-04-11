@@ -71,7 +71,7 @@ services:
       - 7878:7878
     restart: unless-stopped
     
-   lidarr:
+  lidarr:
     image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
     environment:
