@@ -75,8 +75,8 @@ services:
     image: lscr.io/linuxserver/lidarr:latest
     container_name: lidarr
     environment:
-      - PUID=${PUID}
-      - PGID=${PGID}
+      - PUID=1000
+      - PGID=1000
       - TZ=${TZ}
       - UMASK=002
       - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:lidarr
