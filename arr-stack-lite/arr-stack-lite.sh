@@ -18,7 +18,7 @@ MOUNT_POINT="/mnt/data"             # Where Ubuntu will mount it
 NFS_VERSION="4"                     # Recommended: 4
 
 INSTALL_DIR="/docker"
-COMPOSE_URL="https://git.henrystech.dev/l0rdmusash1/bash-installs/raw/branch/main/filehunter/docker-compose.yaml"
+COMPOSE_URL="https://git.henrystech.dev/l0rdmusash1/bash-installs/raw/branch/main/arr-stack-lite/docker-compose.yaml"
 
 #########################################
 
@@ -110,13 +110,6 @@ DOCKERCONFDIR=/docker
 DOCKERSTORAGEDIR=/mnt/data
 DOCKERLOGGING_MAXFILE=10
 DOCKERLOGGING_MAXSIZE=200k
-QBITTORRENT_PORT=8090
-SABNZBD_PORT=8080
-VPN_SERVICE_PROVIDER=private internet access
-VPN_TYPE=openvpn
-OPENVPN_USER=p1708819
-OPENVPN_PASSWORD=fEkdWZq44k
-SERVER_CITIES=Netherlands
 EOF
 fi
 
