@@ -145,6 +145,8 @@ services:
       - PGID=${PGID}
       - TZ=${TZ}
       - UMASK=002
+      - DOCKER_MODS=ghcr.io/themepark-dev/theme.park:lidarr
+      - TP_THEME=overseerr      
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ${DOCKERCONFDIR}/lidarr:/config
