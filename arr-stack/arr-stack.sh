@@ -99,6 +99,7 @@ curl -L $COMPOSE_URL -o docker-compose.yaml
 
 #########################################
 # ⚙️ CREATE ENV FILE
+# 🔧 AND EDIT THESE VARIABLES
 #########################################
 
 if [ ! -f ".env" ]; then
