@@ -50,7 +50,7 @@ services:
       - ${DOCKERCONFDIR}/sonarr-tv:/config
       - ${DOCKERSTORAGEDIR}:/data
     ports:
-      - 8989:8989
+      - 8988:8989
     restart: unless-stopped
 
   radarr:
