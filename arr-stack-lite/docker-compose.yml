@@ -17,7 +17,7 @@ services:
       - 9696:9696
     restart: unless-stopped
     
-  sonarr-anime:
+  sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr-anime
     environment:
@@ -35,7 +35,7 @@ services:
       - 8989:8989
     restart: unless-stopped
 
-  sonarr-tv:
+  sonarr:
     image: lscr.io/linuxserver/sonarr:latest
     container_name: sonarr-Tv
     environment:
