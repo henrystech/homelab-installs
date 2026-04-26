@@ -14,7 +14,7 @@ This allows you to inspect the script before executing it.
 ## Step 1 --- Download the Script
 
 ``` bash
-curl -fsSL -o install_synology_nfs.sh https://gitea.henrystech.dev/l0rdmusash1/bbash-installs/raw/branch/main/synology-nfs/install_synology_nfs.sh
+curl -fsSL -o install_synology_nfs.sh https://git.henrystech.dev/l0rdmusash1/bbash-installs/raw/branch/main/synology-nfs/install_synology_nfs.sh
 
 ```
 
@@ -40,7 +40,7 @@ If you understand the risks and trust the source, you may execute
 directly:
 
 ``` bash
-curl -fsSL https://gitea.henrystech.dev/l0rdmusash1/bash-installs/raw/branch/main/synology-nfs/install_synology_nfs.sh | sudo bash
+curl -fsSL https://git.henrystech.dev/l0rdmusash1/bash-installs/raw/branch/main/synology-nfs/install_synology_nfs.sh | sudo bash
 ```
 
 ⚠️ This method does not allow inspection before execution.
