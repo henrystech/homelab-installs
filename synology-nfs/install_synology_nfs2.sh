@@ -2,7 +2,7 @@
 
 set -e
 
-echo "🚀 Starting Synology NFS Mount Setup..."
+echo "upStarting Synology NFS Mount Setup..."
 
 #########################################
 # 🔧 CONFIGURATION
