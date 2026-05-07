@@ -1,0 +1,169 @@
+---
+services:
+  gluetun:
+    image: qmcgaw/gluetun:latest
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    environment:
+      VPN_SERVICE_PROVIDER: ${VPN_SERVICE_PROVIDER}
+      VPN_TYPE: ${VPN_TYPE}
+      OPENVPN_USER: ${OPENVPN_USER}
+      OPENVPN_PASSWORD: ${OPENVPN_PASSWORD}
+      SERVER_CITIES: ${SERVER_CITIES}
+    volumes:
+      - ${DOCKERCONFDIR}/gluetun:/gluetun
+    ports:
+      - ${QBITTORRENT_PORT}:${QBITTORRENT_PORT}
+      - ${SABNZBD_PORT}:8080
+    restart: unless-stopped
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    network_mode: service:gluetun
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      WEBUI_PORT: ${QBITTORRENT_PORT}
+    volumes:
+      - ${DOCKERCONFDIR}/qbittorrent:/config
+      - ${DOCKERSTORAGEDIR}/torrents:/data/torrents
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    restart: unless-stopped
+
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    network_mode: service:gluetun
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    volumes:
+      - ${DOCKERCONFDIR}/sabnzbd:/config
+      - ${DOCKERSTORAGEDIR}/usenet:/data/usenet
+    depends_on:
+      gluetun:
+        condition: service_healthy
+    restart: unless-stopped
+
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    restart: unless-stopped
+    user: ${PUID}:${PGID}
+    volumes:
+      - ${FILEBROWSER_ROOT}:/srv
+      - ${DOCKERCONFDIR}/filebrowser/database:/database
+      - ${DOCKERCONFDIR}/filebrowser/config:/config
+    ports:
+      - ${FILEBROWSER_PORT}:80
+
+  prowlarr:
+    container_name: prowlarr
+    image: ghcr.io/hotio/prowlarr:release
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-file: ${DOCKERLOGGING_MAXFILE}
+        max-size: ${DOCKERLOGGING_MAXSIZE}
+    ports:
+      - ${PROWLARR_PORT}:9696
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      UMASK: "002"
+    volumes:
+      - ${DOCKERCONFDIR}/prowlarr:/config:rw
+
+  radarr:
+    container_name: radarr
+    image: ghcr.io/hotio/radarr:release
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-file: ${DOCKERLOGGING_MAXFILE}
+        max-size: ${DOCKERLOGGING_MAXSIZE}
+    ports:
+      - ${RADARR_PORT}:7878
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      UMASK: "002"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DOCKERCONFDIR}/radarr:/config
+      - ${DOCKERSTORAGEDIR}:/data
+
+  sonarr-anime:
+    container_name: sonarr-anime
+    image: ghcr.io/hotio/sonarr:release
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-file: ${DOCKERLOGGING_MAXFILE}
+        max-size: ${DOCKERLOGGING_MAXSIZE}
+    ports:
+      - ${SONARR_ANIME_PORT}:8989
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      UMASK: "002"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DOCKERCONFDIR}/sonarr-anime:/config
+      - ${DOCKERSTORAGEDIR}:/data
+
+  lidarr:
+    container_name: lidarr
+    image: ghcr.io/hotio/lidarr:release
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-file: ${DOCKERLOGGING_MAXFILE}
+        max-size: ${DOCKERLOGGING_MAXSIZE}
+    ports:
+      - ${LIDARR_PORT}:8686
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      UMASK: "002"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DOCKERCONFDIR}/lidarr:/config
+      - ${DOCKERSTORAGEDIR}:/data
+
+  sonarr-tv:
+    container_name: sonarr-tv
+    image: ghcr.io/hotio/sonarr:release
+    restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-file: ${DOCKERLOGGING_MAXFILE}
+        max-size: ${DOCKERLOGGING_MAXSIZE}
+    ports:
+      - ${SONARR_TV_PORT}:8989
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      UMASK: "002"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${DOCKERCONFDIR}/sonarr-tv:/config
+      - ${DOCKERSTORAGEDIR}:/data
