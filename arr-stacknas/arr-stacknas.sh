@@ -2,8 +2,8 @@
 
 set -Eeuo pipefail
 
-REPO_RAW_URL="${REPO_RAW_URL:-https://raw.githubusercontent.com/henrystech/homelab-installs/main/arr-stack}"
-INSTALL_DIR_DEFAULT="/docker"
+REPO_RAW_URL="${REPO_RAW_URL:-https://raw.githubusercontent.com/henrystech/homelab-installs/main/arr-stacknas}"
+INSTALL_DIR_DEFAULT="/volume1/docker/arr-stack"
 COMPOSE_FILE_NAME="docker-compose.yaml"
 
 log() {
@@ -17,7 +17,7 @@ die() {
 
 require_root() {
   if [[ "${EUID}" -ne 0 ]]; then
-    die "Please run as root: sudo ./arr-stack.sh"
+    die "Please run as root: sudo ./arr-stacknas.sh"
   fi
 
   if [[ ! -r /dev/tty ]]; then
@@ -122,70 +122,18 @@ choose_option() {
   done
 }
 
-install_linux_packages() {
-  log "Installing Linux packages"
-
-  if ! command_exists apt-get; then
-    die "Automatic package installation currently supports Ubuntu/Debian hosts with apt-get."
-  fi
-
-  apt-get update
-  apt-get install -y nfs-common curl ca-certificates
-}
-
-install_docker_if_needed() {
-  if command_exists docker; then
-    log "Docker is already installed"
-  else
-    log "Installing Docker"
-    curl -fsSL https://get.docker.com | sh
-  fi
-
+find_compose_command() {
   if docker compose version >/dev/null 2>&1; then
-    log "Docker Compose plugin is available"
-  else
-    log "Installing Docker Compose plugin"
-    apt-get update
-    apt-get install -y docker-compose-plugin
+    COMPOSE_CMD=(docker compose)
+    return
   fi
 
-  if [[ -n "${SUDO_USER:-}" && "${SUDO_USER}" != "root" ]]; then
-    usermod -aG docker "$SUDO_USER" || true
-  fi
-}
-
-require_docker_compose() {
-  if ! docker compose version >/dev/null 2>&1; then
-    die "Docker Compose was not found. Install the Docker Compose plugin before running this mode."
-  fi
-}
-
-setup_nfs_mount() {
-  local nas_ip="$1"
-  local nas_export="$2"
-  local mount_point="$3"
-  local nfs_version="$4"
-  local fstab_entry
-
-  log "Setting up NFS mount"
-  mkdir -p "$mount_point"
-
-  if command_exists showmount; then
-    showmount -e "$nas_ip" || die "Unable to reach $nas_ip or NFS is not enabled."
+  if command_exists docker-compose; then
+    COMPOSE_CMD=(docker-compose)
+    return
   fi
 
-  if mountpoint -q "$mount_point"; then
-    printf '%s is already mounted.\n' "$mount_point"
-  else
-    mount -t nfs -o "vers=$nfs_version" "$nas_ip:$nas_export" "$mount_point"
-  fi
-
-  fstab_entry="$nas_ip:$nas_export $mount_point nfs defaults,_netdev,vers=$nfs_version 0 0"
-  if ! grep -qsF "$nas_ip:$nas_export $mount_point nfs" /etc/fstab; then
-    printf '%s\n' "$fstab_entry" >> /etc/fstab
-  fi
-
-  mount -a
+  die "Docker Compose was not found. Install Synology Container Manager, UGREEN Docker, or docker-compose first."
 }
 
 copy_or_download_compose() {
@@ -201,10 +149,6 @@ copy_or_download_compose() {
     install -m 0644 "$script_dir/$COMPOSE_FILE_NAME" "$install_dir/$COMPOSE_FILE_NAME"
   else
     curl -fsSL "$REPO_RAW_URL/$COMPOSE_FILE_NAME" -o "$install_dir/$COMPOSE_FILE_NAME"
-  fi
-
-  if [[ -n "${SUDO_USER:-}" && "${SUDO_USER}" != "root" ]]; then
-    chown -R "$SUDO_USER:$SUDO_USER" "$install_dir" || true
   fi
 }
 
@@ -243,10 +187,6 @@ FILEBROWSER_ROOT=$(env_value "$FILEBROWSER_ROOT")
 EOF
 
   chmod 600 "$env_file"
-
-  if [[ -n "${SUDO_USER:-}" && "${SUDO_USER}" != "root" ]]; then
-    chown "$SUDO_USER:$SUDO_USER" "$env_file" || true
-  fi
 }
 
 prepare_directories() {
@@ -282,47 +222,35 @@ prepare_directories() {
 
 require_root
 
-log "Ubuntu Arr Stack guided installer"
-
-install_linux_packages
-install_docker_if_needed
-
-SETUP_NFS="false"
-if prompt_yes_no "Mount storage from a NAS over NFS?" "Y"; then
-  SETUP_NFS="true"
+if ! command_exists docker; then
+  die "Docker was not found. Install Container Manager/Docker on the NAS first."
 fi
+find_compose_command
 
-if [[ "$SETUP_NFS" == "true" ]]; then
-  NAS_VENDOR="$(choose_option "What NAS are you mounting from?" "Synology" "UGREEN" "Custom NFS server")"
-  case "$NAS_VENDOR" in
-    "Synology") DEFAULT_EXPORT="/volume1/data" ;;
-    "UGREEN") DEFAULT_EXPORT="/volume1/data" ;;
-    *) DEFAULT_EXPORT="/srv/data" ;;
-  esac
+log "NAS Arr Stack guided installer"
 
-  NAS_IP="$(prompt_required "NAS IP address" "192.168.1.10")"
-  NAS_EXPORT="$(prompt_required "NAS export path" "$DEFAULT_EXPORT")"
-  MOUNT_POINT="$(prompt_required "Local mount point" "/mnt/data")"
-  NFS_VERSION="$(prompt_required "NFS version" "4")"
-  setup_nfs_mount "$NAS_IP" "$NAS_EXPORT" "$MOUNT_POINT" "$NFS_VERSION"
-  DEFAULT_STORAGE_DIR="$MOUNT_POINT"
-else
-  DEFAULT_STORAGE_DIR="/mnt/data"
-fi
+NAS_TYPE="$(choose_option "What NAS is this running on?" "Synology NAS" "UGREEN NAS" "Other NAS Docker host")"
+case "$NAS_TYPE" in
+  "Synology NAS")
+    DEFAULT_INSTALL_DIR="/volume1/docker/arr-stack"
+    DEFAULT_STORAGE_DIR="/volume1/data"
+    ;;
+  "UGREEN NAS")
+    DEFAULT_INSTALL_DIR="/volume1/docker/arr-stack"
+    DEFAULT_STORAGE_DIR="/volume1/data"
+    ;;
+  *)
+    DEFAULT_INSTALL_DIR="$INSTALL_DIR_DEFAULT"
+    DEFAULT_STORAGE_DIR="/volume1/data"
+    ;;
+esac
 
-INSTALL_DIR="$(prompt_required "Docker install/config directory" "$INSTALL_DIR_DEFAULT")"
+INSTALL_DIR="$(prompt_required "Docker install/config directory" "$DEFAULT_INSTALL_DIR")"
 DOCKERCONFDIR="$(prompt_required "Container config directory" "$INSTALL_DIR")"
-DOCKERSTORAGEDIR="$(prompt_required "Media storage directory" "$DEFAULT_STORAGE_DIR")"
+DOCKERSTORAGEDIR="$(prompt_required "NAS media storage directory" "$DEFAULT_STORAGE_DIR")"
 
-DEFAULT_PUID="1000"
-DEFAULT_PGID="1000"
-if [[ -n "${SUDO_UID:-}" && -n "${SUDO_GID:-}" ]]; then
-  DEFAULT_PUID="$SUDO_UID"
-  DEFAULT_PGID="$SUDO_GID"
-fi
-
-PUID="$(prompt_required "PUID" "$DEFAULT_PUID")"
-PGID="$(prompt_required "PGID" "$DEFAULT_PGID")"
+PUID="$(prompt_required "PUID" "1000")"
+PGID="$(prompt_required "PGID" "1000")"
 TZ="$(prompt_required "Timezone" "America/Chicago")"
 
 DOCKERLOGGING_MAXFILE="$(prompt_required "Docker log max files" "10")"
@@ -351,21 +279,17 @@ prepare_directories
 
 log "Starting containers"
 cd "$INSTALL_DIR"
-docker compose up -d
+"${COMPOSE_CMD[@]}" up -d
 
 log "Setup complete"
 printf 'Compose directory: %s\n' "$INSTALL_DIR"
 printf 'Storage directory: %s\n' "$DOCKERSTORAGEDIR"
 printf 'Docker network: skynet\n'
-printf 'qBittorrent: http://<server-ip>:%s\n' "$QBITTORRENT_PORT"
-printf 'SABnzbd: http://<server-ip>:%s\n' "$SABNZBD_PORT"
-printf 'Prowlarr: http://<server-ip>:%s\n' "$PROWLARR_PORT"
-printf 'Radarr: http://<server-ip>:%s\n' "$RADARR_PORT"
-printf 'Sonarr anime: http://<server-ip>:%s\n' "$SONARR_ANIME_PORT"
-printf 'Sonarr TV: http://<server-ip>:%s\n' "$SONARR_TV_PORT"
-printf 'Lidarr: http://<server-ip>:%s\n' "$LIDARR_PORT"
-printf 'File Browser: http://<server-ip>:%s\n' "$FILEBROWSER_PORT"
-
-if [[ -n "${SUDO_USER:-}" && "${SUDO_USER}" != "root" ]]; then
-  printf 'Log out and back in if Docker group permissions do not apply yet.\n'
-fi
+printf 'qBittorrent: http://<nas-ip>:%s\n' "$QBITTORRENT_PORT"
+printf 'SABnzbd: http://<nas-ip>:%s\n' "$SABNZBD_PORT"
+printf 'Prowlarr: http://<nas-ip>:%s\n' "$PROWLARR_PORT"
+printf 'Radarr: http://<nas-ip>:%s\n' "$RADARR_PORT"
+printf 'Sonarr anime: http://<nas-ip>:%s\n' "$SONARR_ANIME_PORT"
+printf 'Sonarr TV: http://<nas-ip>:%s\n' "$SONARR_TV_PORT"
+printf 'Lidarr: http://<nas-ip>:%s\n' "$LIDARR_PORT"
+printf 'File Browser: http://<nas-ip>:%s\n' "$FILEBROWSER_PORT"
