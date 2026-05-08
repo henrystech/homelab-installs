@@ -14,12 +14,18 @@ services:
       OPENVPN_PASSWORD: ${OPENVPN_PASSWORD}
       SERVER_CITIES: ${SERVER_CITIES}
     volumes:
-      - ${DOCKERCONFDIR}/gluetun:/gluetun
+      - ${DOCKERCONFDIR}/gluetun/config:/gluetun
     ports:
       - ${QBITTORRENT_PORT}:${QBITTORRENT_PORT}
       - ${SABNZBD_PORT}:8080
     networks:
       - skynet
+    healthcheck:
+      test: ["CMD", "/gluetun-entrypoint", "healthcheck"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     restart: unless-stopped
 
   qbittorrent:
@@ -32,7 +38,7 @@ services:
       TZ: ${TZ}
       WEBUI_PORT: ${QBITTORRENT_PORT}
     volumes:
-      - ${DOCKERCONFDIR}/qbittorrent:/config
+      - ${DOCKERCONFDIR}/qbittorrent/config:/config
       - ${DOCKERSTORAGEDIR}/torrents:/data/torrents
     depends_on:
       gluetun:
@@ -48,7 +54,7 @@ services:
       PGID: ${PGID}
       TZ: ${TZ}
     volumes:
-      - ${DOCKERCONFDIR}/sabnzbd:/config
+      - ${DOCKERCONFDIR}/sabnzbd/config:/config
       - ${DOCKERSTORAGEDIR}/usenet:/data/usenet
     depends_on:
       gluetun:
@@ -66,6 +72,9 @@ services:
       - ${DOCKERCONFDIR}/filebrowser/config:/config
     ports:
       - ${FILEBROWSER_PORT}:80
+    depends_on:
+      gluetun:
+        condition: service_healthy
     networks:
       - skynet
 
@@ -86,7 +95,10 @@ services:
       TZ: ${TZ}
       UMASK: "002"
     volumes:
-      - ${DOCKERCONFDIR}/prowlarr:/config:rw
+      - ${DOCKERCONFDIR}/prowlarr/config:/config:rw
+    depends_on:
+      gluetun:
+        condition: service_healthy
     networks:
       - skynet
 
@@ -108,8 +120,11 @@ services:
       UMASK: "002"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERCONFDIR}/radarr:/config
+      - ${DOCKERCONFDIR}/radarr/config:/config
       - ${DOCKERSTORAGEDIR}:/data
+    depends_on:
+      gluetun:
+        condition: service_healthy
     networks:
       - skynet
 
@@ -131,8 +146,11 @@ services:
       UMASK: "002"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERCONFDIR}/sonarr-anime:/config
+      - ${DOCKERCONFDIR}/sonarr-anime/config:/config
       - ${DOCKERSTORAGEDIR}:/data
+    depends_on:
+      gluetun:
+        condition: service_healthy
     networks:
       - skynet
 
@@ -154,8 +172,11 @@ services:
       UMASK: "002"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${DOCKERCONFDIR}/lidarr:/config
+      - ${DOCKERCONFDIR}/lidarr/config:/config
       - ${DOCKERSTORAGEDIR}:/data
+    depends_on:
+      gluetun:
+        condition: service_healthy
     networks:
       - skynet
 

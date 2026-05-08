@@ -62,6 +62,15 @@ By default the installer creates:
 ```text
 /volume1/docker/arr-stack/docker-compose.yaml
 /volume1/docker/arr-stack/.env
+/volume1/docker/arr-stack/gluetun/config
+/volume1/docker/arr-stack/qbittorrent/config
+/volume1/docker/arr-stack/sabnzbd/config
+/volume1/docker/arr-stack/prowlarr/config
+/volume1/docker/arr-stack/radarr/config
+/volume1/docker/arr-stack/sonarr-anime/config
+/volume1/docker/arr-stack/lidarr/config
+/volume1/docker/arr-stack/filebrowser/config
+/volume1/docker/arr-stack/filebrowser/database
 ```
 
 The `.env` file is machine-specific and contains secrets, so it should not be committed to GitHub.
@@ -87,4 +96,6 @@ docker-compose up -d
 - Install Docker, Container Manager, or your NAS vendor's Docker package before running this script.
 - File Browser is configured to expose the selected media storage directory, not the whole NAS filesystem.
 - qBittorrent and SABnzbd share Gluetun's network namespace so their traffic goes through the VPN.
+- Gluetun has a 30-second healthcheck startup grace period.
+- Other containers wait for Gluetun to become healthy before starting.
 - Other containers join the named `skynet` bridge network.

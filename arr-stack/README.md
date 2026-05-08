@@ -64,6 +64,15 @@ By default the installer creates:
 ```text
 /docker/docker-compose.yaml
 /docker/.env
+/docker/gluetun/config
+/docker/qbittorrent/config
+/docker/sabnzbd/config
+/docker/prowlarr/config
+/docker/radarr/config
+/docker/sonarr-anime/config
+/docker/lidarr/config
+/docker/filebrowser/config
+/docker/filebrowser/database
 ```
 
 The `.env` file is machine-specific and contains secrets, so it should not be committed to GitHub.
@@ -89,6 +98,8 @@ docker compose down
 - Rotate any credentials that were previously committed to a public repo.
 - File Browser is configured to expose the selected media storage directory, not the whole server filesystem.
 - qBittorrent and SABnzbd share Gluetun's network namespace so their traffic goes through the VPN.
+- Gluetun has a 30-second healthcheck startup grace period.
+- Other containers wait for Gluetun to become healthy before starting.
 - Other containers join the named `skynet` bridge network.
 - The installer currently automates package installation only for Ubuntu/Debian hosts that use `apt-get`.
 - For Synology or UGREEN NAS installs, use the sibling `arr-stacknas` installer instead.

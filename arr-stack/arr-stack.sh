@@ -252,15 +252,15 @@ prepare_directories() {
   log "Preparing stack directories"
 
   mkdir -p \
-    "$DOCKERCONFDIR/gluetun" \
-    "$DOCKERCONFDIR/qbittorrent" \
-    "$DOCKERCONFDIR/sabnzbd" \
+    "$DOCKERCONFDIR/gluetun/config" \
+    "$DOCKERCONFDIR/qbittorrent/config" \
+    "$DOCKERCONFDIR/sabnzbd/config" \
     "$DOCKERCONFDIR/filebrowser/database" \
     "$DOCKERCONFDIR/filebrowser/config" \
-    "$DOCKERCONFDIR/prowlarr" \
-    "$DOCKERCONFDIR/radarr" \
-    "$DOCKERCONFDIR/sonarr-anime" \
-    "$DOCKERCONFDIR/lidarr" \
+    "$DOCKERCONFDIR/prowlarr/config" \
+    "$DOCKERCONFDIR/radarr/config" \
+    "$DOCKERCONFDIR/sonarr-anime/config" \
+    "$DOCKERCONFDIR/lidarr/config" \
     "$DOCKERSTORAGEDIR/torrents" \
     "$DOCKERSTORAGEDIR/usenet"
 
