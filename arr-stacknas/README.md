@@ -31,7 +31,7 @@ The installer asks for:
 - NAS media storage directory, usually `/volume1/data`
 - PUID, PGID, and timezone
 - app ports
-- VPN provider, username, password, and region/city
+- VPN provider, username, password, and region
 
 ## Clone And Run
 

@@ -236,7 +236,7 @@ VPN_SERVICE_PROVIDER=$(env_value "$VPN_SERVICE_PROVIDER")
 VPN_TYPE=$(env_value "$VPN_TYPE")
 OPENVPN_USER=$(env_value "$OPENVPN_USER")
 OPENVPN_PASSWORD=$(env_value "$OPENVPN_PASSWORD")
-SERVER_CITIES=$(env_value "$SERVER_CITIES")
+SERVER_REGIONS=$(env_value "$SERVER_REGIONS")
 
 FILEBROWSER_ROOT=$(env_value "$FILEBROWSER_ROOT")
 EOF
@@ -337,7 +337,7 @@ VPN_SERVICE_PROVIDER="$(prompt_required "VPN service provider for Gluetun" "priv
 VPN_TYPE="$(prompt_required "VPN type" "openvpn")"
 OPENVPN_USER="$(prompt_required "OpenVPN username")"
 OPENVPN_PASSWORD="$(prompt_secret "OpenVPN password")"
-SERVER_CITIES="$(prompt_required "VPN server cities/regions" "Netherlands")"
+SERVER_REGIONS="$(prompt_required "VPN server regions" "Netherlands")"
 
 FILEBROWSER_ROOT="$(prompt_required "File Browser root directory" "$DOCKERSTORAGEDIR")"
 

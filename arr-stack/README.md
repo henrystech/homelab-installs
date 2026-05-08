@@ -33,7 +33,7 @@ The installer is interactive. It installs Linux dependencies and then prompts fo
 - media storage directory
 - PUID, PGID, and timezone
 - app ports
-- VPN provider, username, password, and region/city
+- VPN provider, username, password, and region
 
 ## Clone And Run
 

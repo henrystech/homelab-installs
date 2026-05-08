@@ -12,7 +12,7 @@ services:
       VPN_TYPE: ${VPN_TYPE}
       OPENVPN_USER: ${OPENVPN_USER}
       OPENVPN_PASSWORD: ${OPENVPN_PASSWORD}
-      SERVER_CITIES: ${SERVER_CITIES}
+      SERVER_REGIONS: ${SERVER_REGIONS}
     volumes:
       - ${DOCKERCONFDIR}/gluetun/config:/gluetun
     ports:
