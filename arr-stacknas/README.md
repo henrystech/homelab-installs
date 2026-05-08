@@ -12,7 +12,6 @@ Unlike the Ubuntu installer, this script does not install Linux packages and doe
 - Prowlarr
 - Radarr
 - Sonarr anime
-- Sonarr TV
 - Lidarr
 - File Browser
 - Custom Docker bridge network named `skynet`

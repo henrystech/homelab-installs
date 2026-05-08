@@ -173,7 +173,6 @@ SABNZBD_PORT=$(env_value "$SABNZBD_PORT")
 PROWLARR_PORT=$(env_value "$PROWLARR_PORT")
 RADARR_PORT=$(env_value "$RADARR_PORT")
 SONARR_ANIME_PORT=$(env_value "$SONARR_ANIME_PORT")
-SONARR_TV_PORT=$(env_value "$SONARR_TV_PORT")
 LIDARR_PORT=$(env_value "$LIDARR_PORT")
 FILEBROWSER_PORT=$(env_value "$FILEBROWSER_PORT")
 
@@ -201,7 +200,6 @@ prepare_directories() {
     "$DOCKERCONFDIR/prowlarr" \
     "$DOCKERCONFDIR/radarr" \
     "$DOCKERCONFDIR/sonarr-anime" \
-    "$DOCKERCONFDIR/sonarr-tv" \
     "$DOCKERCONFDIR/lidarr" \
     "$DOCKERSTORAGEDIR/torrents" \
     "$DOCKERSTORAGEDIR/usenet"
@@ -214,7 +212,6 @@ prepare_directories() {
     "$DOCKERCONFDIR/prowlarr" \
     "$DOCKERCONFDIR/radarr" \
     "$DOCKERCONFDIR/sonarr-anime" \
-    "$DOCKERCONFDIR/sonarr-tv" \
     "$DOCKERCONFDIR/lidarr" \
     "$DOCKERSTORAGEDIR/torrents" \
     "$DOCKERSTORAGEDIR/usenet" || true
@@ -261,7 +258,6 @@ SABNZBD_PORT="$(prompt_required "SABnzbd Web UI port" "8080")"
 PROWLARR_PORT="$(prompt_required "Prowlarr port" "9696")"
 RADARR_PORT="$(prompt_required "Radarr port" "7878")"
 SONARR_ANIME_PORT="$(prompt_required "Sonarr anime port" "8989")"
-SONARR_TV_PORT="$(prompt_required "Sonarr TV port" "8990")"
 LIDARR_PORT="$(prompt_required "Lidarr port" "8686")"
 FILEBROWSER_PORT="$(prompt_required "File Browser port" "9898")"
 
@@ -290,6 +286,5 @@ printf 'SABnzbd: http://<nas-ip>:%s\n' "$SABNZBD_PORT"
 printf 'Prowlarr: http://<nas-ip>:%s\n' "$PROWLARR_PORT"
 printf 'Radarr: http://<nas-ip>:%s\n' "$RADARR_PORT"
 printf 'Sonarr anime: http://<nas-ip>:%s\n' "$SONARR_ANIME_PORT"
-printf 'Sonarr TV: http://<nas-ip>:%s\n' "$SONARR_TV_PORT"
 printf 'Lidarr: http://<nas-ip>:%s\n' "$LIDARR_PORT"
 printf 'File Browser: http://<nas-ip>:%s\n' "$FILEBROWSER_PORT"

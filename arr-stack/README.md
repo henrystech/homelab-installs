@@ -12,7 +12,6 @@ The installer asks for your local values, can mount NAS storage over NFS, writes
 - Prowlarr
 - Radarr
 - Sonarr anime
-- Sonarr TV
 - Lidarr
 - File Browser
 - Custom Docker bridge network named `skynet`
