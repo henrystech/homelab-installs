@@ -1,68 +1,105 @@
-# Arr Stack Installer
+# Arr Stack Guided Installer
 
-This Bash script automates the installation of the NFS client and Arr Stack, a collection of media management applications (such as Sonarr, Radarr, Lidarr, etc.) using Docker and Docker Compose.
+This folder contains a guided installer for a Docker-based homelab media stack on Ubuntu/Debian Linux servers.
 
-## Prerequisites
+The installer asks for your local values, can mount NAS storage over NFS, writes them to `/docker/.env` by default, copies or downloads `docker-compose.yaml`, and starts the stack with Docker Compose.
 
-- A Linux system (Ubuntu/Debian recommended, as the script uses `apt-get`)
-- `sudo` access for installing system packages
-- Internet connection for downloading Docker and the docker-compose configuration
+## Services
 
-## Installation
+- Gluetun VPN gateway
+- qBittorrent
+- SABnzbd
+- Prowlarr
+- Radarr
+- Sonarr anime
+- Lidarr
+- File Browser
+- Custom Docker bridge network named `skynet`
 
-1. **Download the script**:
-   - Download the script directly and run as root:
-     ```bash 
-     sudo su
-     ```
-     ```bash
-     curl -fsSL https://git.henrystech.dev/l0rdmusash1/bash-installs/raw/main/arr-stack/arr-stack.sh | sudo bash
-     ```
+## Quick Install
 
-   - Or clone the repository:
-     ```bash
-     git clone https://gi.henrystech.dev/l0rdmusash1/bash-installs.git
-     cd bash-installs
-     ```
+Run this on the machine that will host the containers:
 
-2. **Make the script executable**:
-   ```bash
-   chmod +x arr-stack.sh
-   ```
-
-3. **Run the script**:
-   ```bash
-   ./arr-stack.sh
-   ```
-   The script will:
-   - Install NFS client if not already installed.
-   - Install Docker if not already installed.
-   - Install the Docker Compose plugin if missing.
-   - Create the installation directory (`/docker`).
-   - Download the `docker-compose.yaml` file from the specified GitHub repository.
-   - Create a `.env` file with default configuration variables.
-
-## Post-Installation
-
-After running the script, navigate to the installation directory:
 ```bash
-cd /docker
+curl -fsSL https://raw.githubusercontent.com/henrystech/homelab-installs/main/arr-stack/arr-stack.sh | sudo bash
 ```
 
-Start the services using Docker Compose:
+The installer is interactive. It installs Linux dependencies and then prompts for values such as:
+
+- NAS IP address
+- NAS NFS export path
+- local mount point
+- Docker config directory
+- media storage directory
+- PUID, PGID, and timezone
+- app ports
+- VPN provider, username, password, and region
+
+## Clone And Run
+
 ```bash
+git clone https://github.com/henrystech/homelab-installs.git
+cd homelab-installs/arr-stack
+chmod +x arr-stack.sh
+sudo ./arr-stack.sh
+```
+
+When run from a clone, the installer uses the local `docker-compose.yaml`. When run through `curl | bash`, it downloads the Compose file from GitHub.
+
+## What It Does
+
+Use this when the stack runs on an Ubuntu/Debian server or mini PC. The installer can:
+
+- install NFS client packages
+- install Docker if missing
+- install the Docker Compose plugin if missing
+- optionally mount storage from a NAS using NFS
+- create app/config folders
+- start the stack on the `skynet` Docker network
+
+## Generated Files
+
+By default the installer creates:
+
+```text
+/docker/docker-compose.yaml
+/docker/.env
+/docker/gluetun/config
+/docker/qbittorrent/config
+/docker/sabnzbd/config
+/docker/prowlarr/config
+/docker/radarr/config
+/docker/sonarr-anime/config
+/docker/lidarr/config
+/docker/filebrowser/config
+/docker/filebrowser/database
+```
+
+The `.env` file is machine-specific and contains secrets, so it should not be committed to GitHub.
+
+## Manual Start
+
+If you want to start the stack later:
+
+```bash
+cd /docker
 docker compose up -d
 ```
 
-This will start all the Arr Stack services in detached mode.
+To stop it:
 
-## Configuration
+```bash
+cd /docker
+docker compose down
+```
 
-- The script creates a `.env` file with default settings. You may need to edit this file to customize ports, directories, VPN settings, etc., based on your environment.
-- Ensure the directories specified in the `.env` file (e.g., `/volume1/docker/arr-stack`, `/volume1/arr-stack-data`) exist and have appropriate permissions.
+## Notes
 
-## Troubleshooting
-
-- If Docker installation fails, ensure your system is supported by the official Docker installation script.
-- For permission issues, make sure your user is added to the `docker` group (the script attempts to do this, but you may need to log out and back in).
-- Check the Docker and Docker Compose versions after installation to ensure compatibility.
+- Rotate any credentials that were previously committed to a public repo.
+- File Browser is configured to expose the selected media storage directory, not the whole server filesystem.
+- qBittorrent and SABnzbd share Gluetun's network namespace so their traffic goes through the VPN.
+- Gluetun has a 30-second healthcheck startup grace period.
+- Other containers wait for Gluetun to become healthy before starting.
+- Other containers join the named `skynet` bridge network.
+- The installer currently automates package installation only for Ubuntu/Debian hosts that use `apt-get`.
+- For Synology or UGREEN NAS installs, use the sibling `arr-stacknas` installer instead.
