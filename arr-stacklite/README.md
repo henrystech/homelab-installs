@@ -1,14 +1,11 @@
-# Arr Stack Guided Installer
+# Arr Stack Lite Guided Installer
 
-This folder contains a guided installer for a Docker-based homelab media stack on Ubuntu/Debian Linux servers.
+This folder contains a lighter Ubuntu/Debian installer for the Arr Stack. It keeps the management apps and File Browser, but does not install Gluetun, qBittorrent, or SABnzbd.
 
-The installer asks for your local values, can mount NAS storage over NFS, writes them to `/docker/.env` by default, copies or downloads `docker-compose.yaml`, and starts the stack with Docker Compose.
+Use this version when you already have download clients elsewhere, do not need the VPN container, or want a simpler stack.
 
 ## Services
 
-- Gluetun VPN gateway
-- qBittorrent
-- SABnzbd
 - Prowlarr
 - Radarr
 - Sonarr anime
@@ -18,30 +15,27 @@ The installer asks for your local values, can mount NAS storage over NFS, writes
 
 ## Quick Install
 
-Run this on the machine that will host the containers:
+Run this on the Ubuntu/Debian machine that will host the containers:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/henrystech/homelab-installs/main/arr-stack/arr-stack.sh | sudo bash
+curl -fsSL https://raw.githubusercontent.com/henrystech/homelab-installs/main/arr-stacklite/arr-stacklite.sh | sudo bash
 ```
 
 The installer is interactive. It installs Linux dependencies and then prompts for values such as:
 
-- NAS IP address
-- NAS NFS export path
-- local mount point
+- optional NAS NFS mount settings
 - Docker config directory
 - media storage directory
 - PUID, PGID, and timezone
 - app ports
-- VPN provider, username, password, and region
 
 ## Clone And Run
 
 ```bash
 git clone https://github.com/henrystech/homelab-installs.git
-cd homelab-installs/arr-stack
-chmod +x arr-stack.sh
-sudo ./arr-stack.sh
+cd homelab-installs/arr-stacklite
+chmod +x arr-stacklite.sh
+sudo ./arr-stacklite.sh
 ```
 
 When run from a clone, the installer uses the local `docker-compose.yaml`. When run through `curl | bash`, it downloads the Compose file from GitHub.
@@ -64,9 +58,6 @@ By default the installer creates:
 ```text
 /docker/docker-compose.yaml
 /docker/.env
-/docker/gluetun/config
-/docker/qbittorrent/config
-/docker/sabnzbd/config
 /docker/prowlarr/config
 /docker/radarr/config
 /docker/sonarr-anime/config
@@ -75,7 +66,7 @@ By default the installer creates:
 /docker/filebrowser/database
 ```
 
-The `.env` file is machine-specific and contains secrets, so it should not be committed to GitHub.
+The `.env` file is machine-specific, so it should not be committed to GitHub.
 
 ## Manual Start
 
@@ -100,24 +91,17 @@ docker compose down
 - `NAS export path`: the NFS path shared by the NAS, such as `/volume1/data`.
 - `Local mount point`: where Ubuntu mounts that share, commonly `/mnt/data`.
 - `NFS version`: the NFS protocol version. Version `4` is a good default.
-- `Docker install/config directory`: where `docker-compose.yaml`, `.env`, and app folders are stored.
-- `Container config directory`: the parent folder for app folders like `gluetun/config`, `radarr/config`, and `qbittorrent/config`.
-- `Media storage directory`: the path mounted into media apps as `/data`.
+- `Docker install/config directory`: where `docker-compose.yaml`, `.env`, and app config folders are stored.
+- `Container config directory`: the parent folder for app folders like `radarr/config` and `prowlarr/config`.
+- `Media storage directory`: the path mounted into Radarr, Sonarr, Lidarr, and related apps as `/data`.
 - `PUID` and `PGID`: the Linux user and group IDs that should own files created by the containers.
 - `Timezone`: the timezone passed into containers, such as `America/Chicago`.
 - `Docker log max files` and `Docker log max size`: limits for container JSON logs.
 - App ports: the host ports used to reach each web UI.
-- VPN provider/type/user/password: the provider details Gluetun uses to start the VPN tunnel.
-- `VPN server regions`: the provider region for Gluetun, such as `Netherlands` for Private Internet Access.
 - `File Browser root directory`: the folder File Browser exposes in its web UI.
 
 ## Notes
 
-- Rotate any credentials that were previously committed to a public repo.
+- This lite stack does not include a VPN gateway or download clients.
 - File Browser is configured to expose the selected media storage directory, not the whole server filesystem.
-- qBittorrent and SABnzbd share Gluetun's network namespace so their traffic goes through the VPN.
-- Gluetun has a 30-second healthcheck startup grace period.
-- Other containers wait for Gluetun to become healthy before starting.
-- Other containers join the named `skynet` bridge network.
-- The installer currently automates package installation only for Ubuntu/Debian hosts that use `apt-get`.
-- For Synology or UGREEN NAS installs, use the sibling `arr-stacknas` installer instead.
+- Containers join the named `skynet` bridge network.
