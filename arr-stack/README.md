@@ -115,6 +115,7 @@ docker compose down
 
 - Rotate any credentials that were previously committed to a public repo.
 - File Browser is configured to expose the selected media storage directory, not the whole server filesystem.
+- Prowlarr, Radarr, Sonarr anime, and Lidarr use LinuxServer images with Theme Park's `overseerr` theme mod.
 - qBittorrent and SABnzbd share Gluetun's network namespace so their traffic goes through the VPN.
 - Gluetun has a 30-second healthcheck startup grace period.
 - Other containers wait for Gluetun to become healthy before starting.

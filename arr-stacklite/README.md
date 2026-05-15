@@ -104,4 +104,5 @@ docker compose down
 
 - This lite stack does not include a VPN gateway or download clients.
 - File Browser is configured to expose the selected media storage directory, not the whole server filesystem.
+- Prowlarr, Radarr, Sonarr anime, and Lidarr use LinuxServer images with Theme Park's `overseerr` theme mod.
 - Containers join the named `skynet` bridge network.
