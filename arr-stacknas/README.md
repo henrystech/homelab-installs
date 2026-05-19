@@ -91,10 +91,25 @@ cd /volume1/docker/arr-stack
 docker-compose up -d
 ```
 
+## Installer Choices Explained
+
+- `NAS type`: selects default paths for Synology, UGREEN, or another NAS Docker host.
+- `Docker install/config directory`: where `docker-compose.yaml`, `.env`, and app folders are stored.
+- `Container config directory`: the parent folder for app folders like `gluetun/config`, `radarr/config`, and `qbittorrent/config`.
+- `NAS media storage directory`: the NAS folder mounted into media apps as `/data`.
+- `PUID` and `PGID`: the NAS user and group IDs that should own files created by the containers.
+- `Timezone`: the timezone passed into containers, such as `America/Chicago`.
+- `Docker log max files` and `Docker log max size`: limits for container JSON logs.
+- App ports: the host ports used to reach each web UI.
+- VPN provider/type/user/password: the provider details Gluetun uses to start the VPN tunnel.
+- `VPN server regions`: the provider region for Gluetun, such as `Netherlands` for Private Internet Access.
+- `File Browser root directory`: the folder File Browser exposes in its web UI.
+
 ## Notes
 
 - Install Docker, Container Manager, or your NAS vendor's Docker package before running this script.
 - File Browser is configured to expose the selected media storage directory, not the whole NAS filesystem.
+- Prowlarr, Radarr, Sonarr anime, and Lidarr use LinuxServer images with Theme Park's `overseerr` theme mod.
 - qBittorrent and SABnzbd share Gluetun's network namespace so their traffic goes through the VPN.
 - Gluetun has a 30-second healthcheck startup grace period.
 - Other containers wait for Gluetun to become healthy before starting.
