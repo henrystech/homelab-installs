@@ -1,0 +1,30 @@
+---
+services:
+  kopia:
+    image: kopia/kopia:latest
+    container_name: kopia
+    restart: unless-stopped
+    command:
+      - server
+      - start
+      - --disable-csrf-token-checks
+      - --insecure
+      - --address=0.0.0.0:51515
+      - --server-username=${KOPIA_USERNAME}
+      - --server-password=${KOPIA_PASSWORD}
+    environment:
+      TZ: ${TZ}
+    ports:
+      - ${KOPIA_PORT}:51515
+    volumes:
+      - ${DOCKERCONFDIR}/kopia/config:/app/config
+      - ${DOCKERCONFDIR}/kopia/cache:/app/cache
+      - ${BACKUP_SOURCE}:/source:ro
+      - ${BACKUP_REPOSITORY}:/repository
+    networks:
+      - skynet
+
+networks:
+  skynet:
+    name: skynet
+    driver: bridge

@@ -1,0 +1,32 @@
+---
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+    ports:
+      - ${UPTIME_KUMA_PORT}:3001
+    volumes:
+      - ${DOCKERCONFDIR}/uptime-kuma/data:/app/data
+    networks:
+      - skynet
+
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ}
+    ports:
+      - ${DOZZLE_PORT}:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - skynet
+
+networks:
+  skynet:
+    name: skynet
+    driver: bridge
