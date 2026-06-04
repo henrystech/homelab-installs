@@ -10,10 +10,15 @@ Guided installers for repeatable homelab Docker stacks. Each folder is meant to 
 | `arr-stacknas` | `arr-stacknas.sh` | NAS-focused Arr stack for Synology, UGREEN, or another NAS Docker host. This version skips the NFS setup because the NAS already provides local storage. |
 | `arr-stacklite` | `arr-stacklite.sh` | Lightweight Ubuntu/Debian Arr stack with optional NFS mounting. This version does not include Gluetun, qBittorrent, SABnzbd, or VPN credential prompts. |
 | `backup-stack` | `backup-stack.sh` | Kopia backup stack for backing up important homelab folders such as `/docker`, app config folders, Compose files, and `.env` files. |
+| `dashboard-stack` | `dashboard-stack.sh` | Homepage dashboard stack that gives users one place to open and organize homelab services. |
+| `dns-vpn-stack` | `dns-vpn-stack.sh` | AdGuard Home DNS stack with optional wg-easy WireGuard VPN access. |
+| `media-server-stack` | `media-server-stack.sh` | Jellyfin and Jellyseerr stack for media playback and request management. |
 | `monitoring-stack` | `monitoring-stack.sh` | Small monitoring stack with Uptime Kuma for uptime checks and Dozzle for Docker container logs. |
 | `nas-compose-bootstrap` | `nas-compose-bootstrap.sh` | Synology/UGREEN NAS Compose starter that creates a small project with Uptime Kuma and File Browser. |
 | `proxmox-docker-lxc` | `proxmox-docker-lxc.sh` | Proxmox helper that creates a Docker-ready LXC and can install Docker Compose inside it. |
 | `proxmox-post-install` | `proxmox-post-install.sh` | Proxmox first-day helper for repositories, useful tools, and optional package updates. |
+| `reverse-proxy-stack` | `reverse-proxy-stack.sh` | Nginx Proxy Manager stack with optional Cloudflare Tunnel for clean service URLs and external access. |
+| `storage-mount-helper` | `storage-mount-helper.sh` | Ubuntu/Debian helper for persistent NFS or SMB mounts from NAS storage. |
 | `ubuntu-docker-bootstrap` | `ubuntu-docker-bootstrap.sh` | Ubuntu/Debian bootstrap script that installs Docker from the official apt repository, creates `/docker`, and creates the `skynet` network. |
 | `unraid-compose-helper` | `unraid-compose-helper.sh` | Unraid-friendly Compose helper that creates a small starter project users can import or run with Compose Manager. |
 
@@ -55,6 +60,36 @@ Monitoring stack:
 curl -fsSL https://raw.githubusercontent.com/henrystech/homelab-installs/main/monitoring-stack/monitoring-stack.sh | sudo bash
 ```
 
+Reverse proxy stack:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/henrystech/homelab-installs/main/reverse-proxy-stack/reverse-proxy-stack.sh | sudo bash
+```
+
+Dashboard stack:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/henrystech/homelab-installs/main/dashboard-stack/dashboard-stack.sh | sudo bash
+```
+
+DNS/VPN stack:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/henrystech/homelab-installs/main/dns-vpn-stack/dns-vpn-stack.sh | sudo bash
+```
+
+Media server stack:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/henrystech/homelab-installs/main/media-server-stack/media-server-stack.sh | sudo bash
+```
+
+Storage mount helper:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/henrystech/homelab-installs/main/storage-mount-helper/storage-mount-helper.sh | sudo bash
+```
+
 NAS Compose starter:
 
 ```bash
@@ -91,3 +126,5 @@ Every installer folder should include:
 ## Maintenance Rule
 
 Whenever a new installer or script folder is added, update this root `README.md` in the same change. Add the folder name, main script, short purpose, quick install command, and any major assumptions or exclusions.
+
+Ideas that are not built yet live in `ROADMAP.md`.

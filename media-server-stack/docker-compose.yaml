@@ -1,0 +1,37 @@
+---
+services:
+  jellyfin:
+    image: lscr.io/linuxserver/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+    ports:
+      - ${JELLYFIN_PORT}:8096
+    volumes:
+      - ${DOCKERCONFDIR}/jellyfin/config:/config
+      - ${DOCKERCONFDIR}/jellyfin/cache:/cache
+      - ${MEDIA_DIR}:/data/media:ro
+    networks:
+      - skynet
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    restart: unless-stopped
+    environment:
+      LOG_LEVEL: info
+      TZ: ${TZ}
+    ports:
+      - ${JELLYSEERR_PORT}:5055
+    volumes:
+      - ${DOCKERCONFDIR}/jellyseerr/config:/app/config
+    networks:
+      - skynet
+
+networks:
+  skynet:
+    name: skynet
+    driver: bridge

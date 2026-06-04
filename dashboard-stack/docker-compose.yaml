@@ -1,0 +1,23 @@
+---
+services:
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    restart: unless-stopped
+    environment:
+      PUID: ${PUID}
+      PGID: ${PGID}
+      TZ: ${TZ}
+      HOMEPAGE_ALLOWED_HOSTS: ${HOMEPAGE_ALLOWED_HOSTS}
+    ports:
+      - ${HOMEPAGE_PORT}:3000
+    volumes:
+      - ${DOCKERCONFDIR}/homepage/config:/app/config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - skynet
+
+networks:
+  skynet:
+    name: skynet
+    driver: bridge
