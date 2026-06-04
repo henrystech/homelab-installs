@@ -12,6 +12,7 @@ Guided installers for repeatable homelab Docker stacks. Each folder is meant to 
 | `backup-stack` | `backup-stack.sh` | Kopia backup stack for backing up important homelab folders such as `/docker`, app config folders, Compose files, and `.env` files. |
 | `dashboard-stack` | `dashboard-stack.sh` | Homepage dashboard stack that gives users one place to open and organize homelab services. |
 | `dns-vpn-stack` | `dns-vpn-stack.sh` | AdGuard Home DNS stack with optional wg-easy WireGuard VPN access. |
+| `grafana-monitoring-stack` | `grafana-monitoring-stack.sh` | Deeper monitoring stack with Grafana, Prometheus, Node Exporter, cAdvisor, Loki, and Grafana Alloy. |
 | `media-server-stack` | `media-server-stack.sh` | Jellyfin and Jellyseerr stack for media playback and request management. |
 | `monitoring-stack` | `monitoring-stack.sh` | Small monitoring stack with Uptime Kuma for uptime checks and Dozzle for Docker container logs. |
 | `nas-compose-bootstrap` | `nas-compose-bootstrap.sh` | Synology/UGREEN NAS Compose starter that creates a small project with Uptime Kuma and File Browser. |
@@ -76,6 +77,12 @@ DNS/VPN stack:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/henrystech/homelab-installs/main/dns-vpn-stack/dns-vpn-stack.sh | sudo bash
+```
+
+Grafana monitoring stack:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/henrystech/homelab-installs/main/grafana-monitoring-stack/grafana-monitoring-stack.sh | sudo bash
 ```
 
 Media server stack:
